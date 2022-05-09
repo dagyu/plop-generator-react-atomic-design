@@ -1,0 +1,44 @@
+name: "🚀 release"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: "🚀 release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📚 checkout"
+        uses: actions/checkout@v2.3.4
+      - name: "🟢 node"
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+      - name: "📦 install"
+        run: yarn install --frozen-lockfile
+      - name: "🧶 lint"
+        run: yarn lint
+      - name: "💾 format"
+        run: yarn format
+      - name: "🧪 test"
+        run: yarn test
+      - name: "☂️ coverage"
+        uses: codecov/codecov-action@v1.2.1
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          registry-url: https://npm.pkg.github.com/
+      - run: yarn install --frozen-lockfile
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

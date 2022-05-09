@@ -1,0 +1,14 @@
+import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { {{ pascalCase name }} } from "./{{ pascalCase name }}"
+
+export default {
+  title: "{{pascalCase type}}s/{{> folder}}/{{ pascalCase name }}",
+  component: {{ pascalCase name }},
+  args: {},
+} as ComponentMeta<typeof {{ pascalCase name}}>;
+
+const Template: ComponentStory<typeof {{ pascalCase name}}> = (args) => (
+  <{{ pascalCase name}} {...args} />
+);
+
+export const Simple{{ pascalCase name}} = Template.bind({});
